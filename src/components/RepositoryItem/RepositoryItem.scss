@@ -1,7 +1,8 @@
 .repository-item {
   display: flex;
   align-items: center;
-  gap: 3rem;
+
+  cursor: pointer;
 
   &__name {
     width: 30%;

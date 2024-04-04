@@ -8,4 +8,5 @@ export interface IRepositoryItem {
   full_name: string;
   stargazers_count: number;
   open_issues: number;
+  html_url: string
 }

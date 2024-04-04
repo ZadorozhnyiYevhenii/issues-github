@@ -4,8 +4,10 @@ import './RepositoryList.scss';
 
 export const RepositoryList = ({
   repositories,
+  onRepoChoose
 }: {
   repositories: IRepositoryItem[] | undefined;
+  onRepoChoose: (id: number) => void
 }) => {
   return (
     <>
@@ -13,7 +15,7 @@ export const RepositoryList = ({
         <ul className="repository">
           {repositories.map((repository) => (
             <li key={repository.id} className="repository__item">
-              <RepositoryItem repository={repository} />
+              <RepositoryItem repository={repository} onRepoChoose={() => onRepoChoose(repository.id)} />
             </li>
           ))}
         </ul>

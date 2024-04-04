@@ -1,19 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IRepositoryItem } from "../../types/IRepository";
 
 type RepositoryState = {
-  repositoryName: string;
+  currentRepository: IRepositoryItem | undefined;
 };
 
 const initialState: RepositoryState = {
-  repositoryName: "",
+  currentRepository: undefined
 };
 
 export const repositorySlice = createSlice({
   name: "repository",
   initialState: initialState,
   reducers: {
-    setRepositoryName: (state, action: PayloadAction<string>) => {
-      state.repositoryName = action.payload;
+    setRepositoryName: (state, action: PayloadAction<IRepositoryItem | undefined>) => {
+      state.currentRepository = action.payload;
     },
   },
 });
