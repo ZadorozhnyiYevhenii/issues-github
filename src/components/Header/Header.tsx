@@ -1,14 +1,20 @@
+import { useState } from "react";
 import { UIButton } from "../UI/Button";
 import { UISearchInput } from "../UI/UISearchInput";
 import "./Header.scss";
+import { getSearchRepositories } from "../../api/getCalls/getSearchRepositories";
 
 export const Header = () => {
-  const onButtonClick = () => {
-    console.log("Clicked");
+  const [searchRepository, setSearchRepository] = useState('');
+
+  const onButtonClick = async () => {
+    await getSearchRepositories(searchRepository)
   };
 
-  const handleChange = () => {
-    console.log("Changed");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+
+    setSearchRepository(searchValue)
   };
 
   return (
@@ -17,7 +23,7 @@ export const Header = () => {
         placeholder="Enter repo URL"
         loading
         onChange={handleChange}
-        value={"value"}
+        value={searchRepository}
       />
       <UIButton onClick={onButtonClick}>Load issues</UIButton>
     </header>

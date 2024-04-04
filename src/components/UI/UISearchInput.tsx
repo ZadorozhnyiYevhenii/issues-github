@@ -8,12 +8,12 @@ export const UISearchInput = ({
 }: {
   loading: boolean;
   placeholder: string;
-  onChange: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
 }) => {
   return (
     <Search
-      onChange={onChange}
+      onChange={(e) => onChange(e)}
       value={value}
       placeholder={placeholder}
       loading={loading}
