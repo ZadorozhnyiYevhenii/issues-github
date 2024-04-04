@@ -1,0 +1,21 @@
+.repository-item {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+
+  &__name {
+    width: 30%;
+  }
+
+  &__stars {
+    width: 10%;
+  }
+
+  &__issues {
+    width: 10%;
+  }
+
+  &__star-icon {
+    color: gold;
+  }
+}

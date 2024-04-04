@@ -6,13 +6,15 @@ export const UIButton = ({
   type = "primary",
   onClick,
   children,
+  loading
 }: {
   type?: ButtonType;
   onClick: () => void;
   children: React.ReactNode;
+  loading?: boolean
 }) => {
   return (
-    <Button type={type} onClick={onClick}>
+    <Button type={type} onClick={onClick} loading={loading}>
       {children}
     </Button>
   );

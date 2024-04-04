@@ -1,5 +1,9 @@
 .header {
   display: flex;
-  align-items: center;
   gap: 1rem;
+  justify-content: space-between;
+
+  &__search {
+    width: 100%;
+  }
 }

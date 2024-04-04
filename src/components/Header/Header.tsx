@@ -1,30 +1,38 @@
 import { useState } from "react";
-import { UIButton } from "../UI/Button";
+import { UIButton } from "../UI/UIButton";
 import { UISearchInput } from "../UI/UISearchInput";
-import "./Header.scss";
 import { getSearchRepositories } from "../../api/getCalls/getSearchRepositories";
+import { IRepository } from "../../types/IRepository";
+import { RepositoryList } from "../ RepositoryList/RepositoryList";
+import "./Header.scss";
 
 export const Header = () => {
-  const [searchRepository, setSearchRepository] = useState('');
+  const [searchRepository, setSearchRepository] = useState("");
+  const [repositories, setRepositories] = useState<IRepository | null>(null);
 
   const onButtonClick = async () => {
-    await getSearchRepositories(searchRepository)
+    console.log('click')
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
-
     setSearchRepository(searchValue)
+
+    const data = await getSearchRepositories(searchRepository);
+    setRepositories(data);
   };
 
   return (
     <header className="header">
-      <UISearchInput
-        placeholder="Enter repo URL"
-        loading
-        onChange={handleChange}
-        value={searchRepository}
-      />
+      <div className="header__search">
+        <UISearchInput
+          placeholder="Enter repo URL"
+          loading={false}
+          onChange={handleChange}
+          value={searchRepository}
+        />
+        <RepositoryList repositories={repositories?.items} />
+      </div>
       <UIButton onClick={onButtonClick}>Load issues</UIButton>
     </header>
   );
