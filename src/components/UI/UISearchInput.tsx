@@ -2,10 +2,21 @@ import Search from "antd/es/input/Search";
 
 export const UISearchInput = ({
   loading,
-  placeholder
+  placeholder,
+  onChange,
+  value,
 }: {
-  loading: boolean,
-  placeholder: string
+  loading: boolean;
+  placeholder: string;
+  onChange: () => void;
+  value: string;
 }) => {
-  return <Search placeholder={placeholder} loading={loading} />;
+  return (
+    <Search
+      onChange={onChange}
+      value={value}
+      placeholder={placeholder}
+      loading={loading}
+    />
+  );
 };
