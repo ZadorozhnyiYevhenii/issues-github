@@ -13,12 +13,12 @@ export const repositorySlice = createSlice({
   name: "repository",
   initialState: initialState,
   reducers: {
-    setRepositoryName: (state, action: PayloadAction<IRepositoryItem | undefined>) => {
+    setCurrentRepository: (state, action: PayloadAction<IRepositoryItem | undefined>) => {
       state.currentRepository = action.payload;
     },
   },
 });
 
-export const { setRepositoryName } = repositorySlice.actions;
+export const { setCurrentRepository } = repositorySlice.actions;
 
 export const repositoryReducer = repositorySlice.reducer;
