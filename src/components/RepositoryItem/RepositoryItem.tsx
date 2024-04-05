@@ -1,7 +1,7 @@
 import { IssuesCloseOutlined, StarOutlined } from "@ant-design/icons";
 import { IRepositoryItem } from "../../types/IRepository";
 import "./RepositoryItem.scss";
-import { starsCount } from "../helpers/starsCount";
+import { starsCount } from "../../helpers/starsCount";
 
 export const RepositoryItem = ({
   repository,

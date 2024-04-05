@@ -1,4 +1,26 @@
+@import "../../styleutils/variables.scss";
+
 .current-repository {
-  position: relative;
-  z-index: 0;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+
+  &__name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: color 0.1s ease-in;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  &__stars {
+    font-weight: 700;
+  }
+
+  &__star-icon {
+    color: gold;
+  }
 }
