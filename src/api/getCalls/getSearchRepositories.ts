@@ -1,7 +1,5 @@
 import { IRepository } from "../../types/IRepository";
-import { BASE_URL } from "../core";
-
-const token = import.meta.env.VITE_ACCESS_TOKEN
+import { BASE_URL, token } from "../core";
 
 export const getSearchRepositories = async (repositoryName: string) => {
   try {

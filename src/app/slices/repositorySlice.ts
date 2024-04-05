@@ -3,10 +3,12 @@ import { IRepositoryItem } from "../../types/IRepository";
 
 type RepositoryState = {
   currentRepository: IRepositoryItem | undefined;
+  repositoryName: string;
 };
 
 const initialState: RepositoryState = {
-  currentRepository: undefined
+  currentRepository: undefined,
+  repositoryName: ''
 };
 
 export const repositorySlice = createSlice({
@@ -16,9 +18,12 @@ export const repositorySlice = createSlice({
     setCurrentRepository: (state, action: PayloadAction<IRepositoryItem | undefined>) => {
       state.currentRepository = action.payload;
     },
+    setRepositoryName: (state, action: PayloadAction<string>) => {
+      state.repositoryName = action.payload;
+    }
   },
 });
 
-export const { setCurrentRepository } = repositorySlice.actions;
+export const { setCurrentRepository, setRepositoryName } = repositorySlice.actions;
 
 export const repositoryReducer = repositorySlice.reducer;

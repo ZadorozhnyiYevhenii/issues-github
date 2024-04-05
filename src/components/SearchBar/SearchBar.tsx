@@ -25,6 +25,7 @@ export const SearchBar = () => {
   const handleChooseRepo = (id: number) => {
     const choseRepo = repositories?.items.find((repo) => repo.id === id);
     dispatch(setCurrentRepository(choseRepo));
+    setSearchRepository('');
     setRepositories(null);
   };
 

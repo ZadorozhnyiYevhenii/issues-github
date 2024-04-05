@@ -5,13 +5,11 @@ import "./CurrentRepository.scss";
 
 export const CurrentRepository = () => {
   const { currentRepository } = useAppSelector((state) => state.repository);
-  const { issue } = useAppSelector((state) => state.issue);
 
   const stars = starsCount(currentRepository?.stargazers_count as number);
-  console.log(issue);
   return (
     <>
-      {!!currentRepository && !!issue ? (
+      {currentRepository ? (
         <section className="current-repository">
           <a
             href={currentRepository?.html_url}
