@@ -8,9 +8,13 @@ export const IssueCard = ({ issue }: { issue: IIssue }) => {
       <a className="issue-card__title" href={html_url}>
         {title}
       </a>
-      <div className="issue-card__number">#{number}</div>
-      <div className="issue-card__user-name">{user.login}</div>
-      <div className="issue-card__comments">Comments: {comments}</div>
+      <div className="issue-card__number">
+        <span className="issue-card__number-title">Issue:</span> #{number}
+      </div>
+      <div className="issue-card__wrap">
+        <div className="issue-card__user-name">{user.login}</div>
+        <div className="issue-card__comments">Comments: {comments}</div>
+      </div>
     </div>
   );
 };

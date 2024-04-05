@@ -1,0 +1,34 @@
+@import "../../styleutils/variables.scss";
+
+.issue-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  border: 1px solid $main-border-color;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  margin: 0.5rem;
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    overflow: hidden;
+    text-align: left;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  &__number-title {
+    color: $secondary-color;
+    font-weight: 600;
+  }
+}

@@ -3,7 +3,7 @@ import { IRepositoryItem } from "../../types/IRepository";
 
 type RepositoryState = {
   currentRepository: IRepositoryItem | undefined;
-  repositoryName: string;
+  repositoryName: string | null;
 };
 
 const initialState: RepositoryState = {
