@@ -27,5 +27,5 @@ export const useFetchIssues = (issueState: string) => {
     fetch();
   }, [repositoryName, issueState]);
 
-  return { isLoading, issues };
+  return { isLoading, issues, setIssues };
 };

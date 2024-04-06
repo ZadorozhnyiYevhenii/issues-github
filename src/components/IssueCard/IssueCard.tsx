@@ -4,7 +4,7 @@ import "./IssueCard.scss";
 export const IssueCard = ({ issue }: { issue: IIssue }) => {
   const { title, number, user, comments, html_url } = issue;
   return (
-    <div className="issue-card">
+    <div className="issue-card" draggable={true}>
       <a className="issue-card__title" href={html_url}>
         {title}
       </a>
