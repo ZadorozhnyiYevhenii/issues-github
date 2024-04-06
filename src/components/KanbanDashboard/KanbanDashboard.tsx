@@ -128,7 +128,6 @@ export const KanbanDashboard = () => {
         >
           <h2 className="dashboard__title">{column.title}</h2>
           {column.isLoading && <UILoader />}
-          {column.items.length > 0 ? (
             <ul className="dashboard__list">
               {column.items.map((issue) => (
                 <li
@@ -142,7 +141,6 @@ export const KanbanDashboard = () => {
                 </li>
               ))}
             </ul>
-          ) : null}
         </div>
       ))}
     </ul>
