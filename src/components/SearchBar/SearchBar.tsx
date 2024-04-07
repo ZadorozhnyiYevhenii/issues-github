@@ -4,11 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { UISearchInput } from "../UI/UISearchInput";
 import { useFetchWithdebounce } from "../../hooks/useFetchWithDebounce";
 import { getSearchRepositories } from "../../api/getCalls/getSearchRepositories";
+import { setIsPrevRepo } from "../../app/slices/isPrevRepoSlice";
 import {
-  setCurrentRepository,
-  setIsPrevRepo,
-} from "../../app/slices/repositorySlice";
-import {
+  setCurrentLink,
   setCurrentRepoName,
   setPrevRepoName,
 } from "../../app/slices/repositoryNameSlice";
@@ -43,9 +41,8 @@ export const SearchBar = () => {
     } else {
       localStorage.setItem("currentColumns", storedItems as string);
     }
-
-    dispatch(setCurrentRepository(choseRepo));
     localStorage.setItem("prevColumns", storedItems as string);
+    dispatch(setCurrentLink(choseRepo?.html_url));
     dispatch(setPrevRepoName(currentRepoName as string));
     dispatch(setCurrentRepoName(choseRepo?.full_name as string));
     setSearchRepository("");

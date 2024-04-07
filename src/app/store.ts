@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { repositoryReducer } from "./slices/repositorySlice";
+import { isPrevRepoReducer } from "./slices/isPrevRepoSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { repositoryNameReducer } from "./slices/repositoryNameSlice";
@@ -7,11 +7,16 @@ import { repositoryNameReducer } from "./slices/repositoryNameSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ['currentRepository', 'currentRepoName', 'prevRepoName', 'isCurrentName']
 };
 
-const persistenRepositoryNameReducer = persistReducer(persistConfig, repositoryNameReducer);
-const persistentRepositoryReducer = persistReducer(persistConfig, repositoryReducer);
+const persistenRepositoryNameReducer = persistReducer(
+  persistConfig,
+  repositoryNameReducer
+);
+const persistentRepositoryReducer = persistReducer(
+  persistConfig,
+  isPrevRepoReducer
+);
 
 export const store = configureStore({
   reducer: {

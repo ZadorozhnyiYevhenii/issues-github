@@ -3,13 +3,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 type RepositoryNameState = {
   currentRepoName: string | null;
   prevRepoName: string | null;
-  isCurrentName: boolean
+  isCurrentName: boolean;
+  currentLink: string | undefined
 };
 
 const initialState: RepositoryNameState = {
   currentRepoName: null,
   prevRepoName: null,
-  isCurrentName: false
+  isCurrentName: false,
+  currentLink: ''
 };
 
 export const repositoryNameSlice = createSlice({
@@ -24,11 +26,14 @@ export const repositoryNameSlice = createSlice({
     },
     setIsCurrentName: (state, action: PayloadAction<boolean>) => {
       state.isCurrentName = action.payload
+    },
+    setCurrentLink: (state, action: PayloadAction<string | undefined>) => {
+      state.currentLink = action.payload
     }
   },
 });
 
-export const { setCurrentRepoName, setPrevRepoName, setIsCurrentName } =
+export const { setCurrentRepoName, setPrevRepoName, setIsCurrentName, setCurrentLink } =
   repositoryNameSlice.actions;
 
 export const repositoryNameReducer = repositoryNameSlice.reducer;
