@@ -2,17 +2,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IRepositoryItem } from "../../types/IRepository";
 
 type RepositoryState = {
-  currentRepository: IRepositoryItem | undefined;
-  prevRepository: IRepositoryItem | undefined;
-  repositoryName: string | null;
-  prevRepositoryName: string | null;
+  currentRepository: Pick<IRepositoryItem, 'full_name' | 'stargazers_count' | 'html_url'> | undefined;
+  isPrevRepo: boolean
 };
 
 const initialState: RepositoryState = {
   currentRepository: undefined,
-  prevRepository: undefined,
-  repositoryName: "",
-  prevRepositoryName: "",
+  isPrevRepo: false
 };
 
 export const repositorySlice = createSlice({
@@ -21,30 +17,17 @@ export const repositorySlice = createSlice({
   reducers: {
     setCurrentRepository: (
       state,
-      action: PayloadAction<IRepositoryItem | undefined>
+      action: PayloadAction<Pick<IRepositoryItem, 'full_name' | 'stargazers_count' | 'html_url'> | undefined>
     ) => {
       state.currentRepository = action.payload;
     },
-    setRepositoryName: (state, action: PayloadAction<string>) => {
-      state.repositoryName = action.payload;
-    },
-    setPrevRepository: (
-      state,
-      action: PayloadAction<IRepositoryItem | undefined>
-    ) => {
-      state.prevRepository = action.payload;
-    },
-    setPrevRepositoryName: (state, action: PayloadAction<string>) => {
-      state.prevRepositoryName = action.payload;
-    },
+    setIsPrevRepo: (state, action: PayloadAction<boolean>) => {
+      state.isPrevRepo = action.payload
+    }
   },
 });
 
-export const {
-  setCurrentRepository,
-  setRepositoryName,
-  setPrevRepository,
-  setPrevRepositoryName,
-} = repositorySlice.actions;
+export const { setCurrentRepository, setIsPrevRepo } =
+  repositorySlice.actions;
 
 export const repositoryReducer = repositorySlice.reducer;

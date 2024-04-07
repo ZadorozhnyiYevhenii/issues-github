@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { RepositoryList } from "../ RepositoryList/RepositoryList";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { UISearchInput } from "../UI/UISearchInput";
 import { useFetchWithdebounce } from "../../hooks/useFetchWithDebounce";
 import { getSearchRepositories } from "../../api/getCalls/getSearchRepositories";
-import { setCurrentRepository } from "../../app/slices/repositorySlice";
-import './SearchBar.scss';
+import {
+  setCurrentRepository,
+  setIsPrevRepo,
+} from "../../app/slices/repositorySlice";
+import {
+  setCurrentRepoName,
+  setPrevRepoName,
+} from "../../app/slices/repositoryNameSlice";
+import "./SearchBar.scss";
 
 export const SearchBar = () => {
   const [searchRepository, setSearchRepository] = useState("");
   const dispatch = useAppDispatch();
+  const { currentRepoName, prevRepoName } = useAppSelector(
+    (state) => state.repositoryName
+  );
 
   const { repositories, isLoading, setRepositories } = useFetchWithdebounce(
     searchRepository,
@@ -24,8 +34,21 @@ export const SearchBar = () => {
 
   const handleChooseRepo = (id: number) => {
     const choseRepo = repositories?.items.find((repo) => repo.id === id);
+    const prevStoredItems = localStorage.getItem("prevColumns");
+    const storedItems = localStorage.getItem("currentColumns");
+
+    if (choseRepo?.full_name === prevRepoName && prevStoredItems) {
+      localStorage.setItem("currentColumns", prevStoredItems);
+      dispatch(setIsPrevRepo(true));
+    } else {
+      localStorage.setItem("currentColumns", storedItems as string);
+    }
+
     dispatch(setCurrentRepository(choseRepo));
-    setSearchRepository('');
+    localStorage.setItem("prevColumns", storedItems as string);
+    dispatch(setPrevRepoName(currentRepoName as string));
+    dispatch(setCurrentRepoName(choseRepo?.full_name as string));
+    setSearchRepository("");
     setRepositories(null);
   };
 

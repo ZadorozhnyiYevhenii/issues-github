@@ -7,14 +7,14 @@ export const useFetchIssues = (issueState: string) => {
   const [issues, setIssues] = useState<IIssue[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { repositoryName } = useAppSelector((state) => state.repository);
+  const { currentRepoName } = useAppSelector((state) => state.repositoryName);
 
   useEffect(() => {
     const fetch = async () => {
-      if (repositoryName) {
+      if (currentRepoName) {
         try {
           setIsLoading(true);
-          const data = await getRepositoryIssues(repositoryName, issueState);
+          const data = await getRepositoryIssues(currentRepoName, issueState);
           setIssues(data.items);
         } catch (error) {
           console.error(error);
@@ -25,7 +25,7 @@ export const useFetchIssues = (issueState: string) => {
     };
 
     fetch();
-  }, [repositoryName, issueState]);
+  }, [currentRepoName, issueState]);
 
   return { isLoading, issues, setIssues };
 };

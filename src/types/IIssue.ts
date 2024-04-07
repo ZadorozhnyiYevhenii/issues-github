@@ -6,6 +6,7 @@ export interface IIssue {
   comments: number
   user: {
     login: string
+    html_url: string
   }
 }
 

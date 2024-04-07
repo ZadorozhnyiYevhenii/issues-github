@@ -1,55 +1,26 @@
-import { useFetchIssues } from "../../hooks/useFetchIssues";
-import { IssuesStateParams } from "./common";
 import { DragEvent, useEffect, useState } from "react";
 import { IDashboardItems } from "../../types/IDashboardItems";
 import { IssueCard } from "../IssueCard/IssueCard";
 import { UILoader } from "../UI/UILoader";
 import { IIssue } from "../../types/IIssue";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setIsCurrentName } from "../../app/slices/repositoryNameSlice";
+import { StorageKeys } from "../../constants/storageKeys";
 import "./KanbanDashboard.scss";
 
 export const KanbanDashboard = () => {
-  const { issues: todoIssues, isLoading: isTodoLoading } = useFetchIssues(
-    IssuesStateParams.OPEN
-  );
-
-  const { issues: inProgressIssues, isLoading: isProgressLoading } =
-    useFetchIssues(IssuesStateParams.IN_PROGRESS);
-
-  const { issues: doneIssues, isLoading: isDoneLoading } = useFetchIssues(
-    IssuesStateParams.CLOSED
-  );
-
-  const [columns, setColumns] = useState<IDashboardItems[] | null>([]);
+  const [columns, setColumns] = useLocalStorage(StorageKeys.CURRENT, []);
+  const dispatch = useAppDispatch();
+  const { isCurrentName } = useAppSelector((state) => state.repositoryName);
 
   useEffect(() => {
-    setColumns([
-      {
-        id: 1,
-        title: "ToDo",
-        items: todoIssues,
-        isLoading: isTodoLoading,
-      },
-      {
-        id: 2,
-        title: "In Progress",
-        items: inProgressIssues,
-        isLoading: isProgressLoading,
-      },
-      {
-        id: 3,
-        title: "Done",
-        items: doneIssues,
-        isLoading: isDoneLoading,
-      },
-    ]);
-  }, [
-    doneIssues,
-    inProgressIssues,
-    isTodoLoading,
-    isDoneLoading,
-    isProgressLoading,
-    todoIssues,
-  ]);
+    const storedItems = localStorage.getItem(StorageKeys.CURRENT);
+    if (isCurrentName && storedItems) {
+      setColumns(JSON.parse(storedItems));
+    }
+    dispatch(setIsCurrentName(false));
+  }, [isCurrentName, dispatch]);
 
   const [currentColumn, setCurrentColumn] = useState<IDashboardItems | null>(
     null
@@ -77,28 +48,28 @@ export const KanbanDashboard = () => {
     if (currentIssue?.id !== item.id) {
       board.items.splice(dropIndex, 0, currentIssue as IIssue);
     }
-    setColumns(
-      (columns as IDashboardItems[]).map((col) => {
-        if (col.id === board.id) {
-          return board;
-        }
 
-        if (col.id === currentColumn?.id) {
-          return currentColumn;
-        }
+    const newColumns = (columns as IDashboardItems[]).map((col) => {
+      if (col.id === board.id) {
+        return board;
+      }
 
-        return col;
-      })
-    );
+      if (col.id === currentColumn?.id) {
+        return currentColumn;
+      }
+
+      return col;
+    });
+
+    setColumns(newColumns);
   };
 
   const onCardDrop = (board: IDashboardItems) => {
     if (board.items.length === 0) {
       const currentIndex = currentColumn?.items.indexOf(currentIssue as IIssue);
-    currentColumn?.items.splice(currentIndex as number, 1);
-    board.items.push(currentIssue as IIssue);
-    setColumns(
-      (columns as IDashboardItems[]).map((col) => {
+      currentColumn?.items.splice(currentIndex as number, 1);
+      board.items.push(currentIssue as IIssue);
+      const newColumns = (columns as IDashboardItems[]).map((col) => {
         if (col.id === board.id) {
           return board;
         }
@@ -108,8 +79,9 @@ export const KanbanDashboard = () => {
         }
 
         return col;
-      })
-    );
+      });
+
+      setColumns(newColumns);
     }
   };
 
@@ -119,7 +91,7 @@ export const KanbanDashboard = () => {
 
   return (
     <ul className="dashboard">
-      {columns?.map((column) => (
+      {(columns as IDashboardItems[])?.map((column) => (
         <div
           className="dashboard__issue-state"
           key={column.id}
@@ -128,19 +100,19 @@ export const KanbanDashboard = () => {
         >
           <h2 className="dashboard__title">{column.title}</h2>
           {column.isLoading && <UILoader />}
-            <ul className="dashboard__list">
-              {column.items.map((issue) => (
-                <li
-                  key={issue.id}
-                  draggable
-                  onDragOver={(e) => handleDragOver(e)}
-                  onDragStart={() => handleDragStart(column, issue)}
-                  onDrop={(e) => handleDrop(e, column, issue)}
-                >
-                  <IssueCard issue={issue} />
-                </li>
-              ))}
-            </ul>
+          <ul className="dashboard__list">
+            {column.items.map((issue) => (
+              <li
+                key={issue.id}
+                draggable
+                onDragOver={(e) => handleDragOver(e)}
+                onDragStart={() => handleDragStart(column, issue)}
+                onDrop={(e) => handleDrop(e, column, issue)}
+              >
+                <IssueCard issue={issue} />
+              </li>
+            ))}
+          </ul>
         </div>
       ))}
     </ul>

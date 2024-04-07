@@ -12,7 +12,7 @@ export const IssueCard = ({ issue }: { issue: IIssue }) => {
         <span className="issue-card__number-title">Issue:</span> #{number}
       </div>
       <div className="issue-card__wrap">
-        <div className="issue-card__user-name">{user.login}</div>
+        <a className="issue-card__user-name" href={user.html_url}>{user.login}</a>
         <div className="issue-card__comments">Comments: {comments}</div>
       </div>
     </div>
