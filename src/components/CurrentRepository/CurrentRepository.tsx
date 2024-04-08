@@ -11,6 +11,7 @@ export const CurrentRepository = () => {
             href={currentLink}
             target="_blank"
             className="current-repository__name"
+            data-testid='repo-link'
           >
             {currentRepoName}
           </a>
